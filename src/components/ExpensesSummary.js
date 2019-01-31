@@ -6,7 +6,7 @@ import selectExpenses from '../selectors/expenses';
 export const ExpensesSummary = (props) => (
    
     <div>
-    <h3>Viewing {props.expenses.length} expense{props.expenses.length>1 ? 's' : ''} totalling {selectExpensesTotal(props.expenses)}</h3>
+    <h3>Viewing {props.expenses.length} expense{props.expenses.length!==1 ? 's' : ''} totalling {selectExpensesTotal(props.expenses)}</h3>
     </div>
 );
 

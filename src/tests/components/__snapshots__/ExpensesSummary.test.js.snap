@@ -19,6 +19,7 @@ exports[`should render ExpensesSummary with no expenses 1`] = `
     Viewing 
     0
      expense
+    s
      totalling 
     0
   </h3>
