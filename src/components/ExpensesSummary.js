@@ -2,19 +2,28 @@ import React from 'react';
 import {connect} from 'react-redux';
 import selectExpensesTotal from '../selectors/expenses-total';
 import selectExpenses from '../selectors/expenses';
+import numeral from 'numeral';
 
-export const ExpensesSummary = (props) => (
-   
+export const ExpensesSummary = ({expensesCount, expensesTotal}) => {
+
+    const expenseWord = expensesCount === 1 ? 'expense' : 'expenses';
+    const formattedExpensesTotal = numeral(expensesTotal/100).format('$0,0.00');
+    
+return ( 
     <div>
-    <h3>Viewing {props.expenses.length} expense{props.expenses.length!==1 ? 's' : ''} totalling {selectExpensesTotal(props.expenses)}</h3>
+        <h3>Viewing {expensesCount} {expenseWord} totalling {formattedExpensesTotal}</h3>
     </div>
 );
+};
 
 const mapStateToProps = (state) => {
+    const visibleExpenses = selectExpenses(state.expenses, state.filters);
+    
     return {
-        expenses: selectExpenses(state.expenses, state.filters)
-    }
-}
+        expensesCount: visibleExpenses.length,
+        expensesTotal: selectExpensesTotal(visibleExpenses)
+    };
+};
  
 
 export default connect(mapStateToProps)(ExpensesSummary);
