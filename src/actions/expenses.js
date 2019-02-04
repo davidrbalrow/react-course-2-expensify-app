@@ -1,6 +1,7 @@
 import uuid from 'uuid';
 import database from '../firebase/firebase';
 import { registerDecorator } from 'handlebars';
+import { doesNotReject } from 'assert';
 
 // conponent call action generator
 // action generator returns object
@@ -54,3 +55,60 @@ type: 'EDIT_EXPENSE',
 id,
 updates
 });
+
+// SET_EXPENSES
+export const setExpenses = (expenses) => ({
+    type:'SET_EXPENSES',
+    expenses
+});
+
+//export const startSetExpenses;
+export const startSetExpenses = () => {
+    return (dispatch) => {
+        
+        // const expenses = [];
+
+        // const expenses = {description, note, amount, createdAt};
+    return database.ref('expenses')
+    .once('value',(snapshot)=>{
+    const expenses = [];
+    
+    snapshot.forEach((childSnapshot)=>{
+        console.log('id',childSnapshot.key);
+        console.log('time',Math.floor(new Date().getTime()/1000.0));
+        expenses.push({
+          id: childSnapshot.key,
+          ...childSnapshot.val()  
+        });
+    });
+  
+    console.log(expenses);
+    dispatch(setExpenses(expenses));
+    
+});
+
+                     
+          
+           
+    };
+};
+
+
+//database.ref('expenses')
+// database.ref('expenses')
+// .on('value',(snapshot)=>{
+//     const expenses = [];
+
+//     snapshot.forEach((childSnapshot)=>{
+//         expenses.push({
+//           id: childSnapshot.apiKey,
+//           ...childSnapshot.val()  
+//         });
+//     });
+//     console.log(expenses);
+// });
+
+// dispatch(startSetExpenses({
+//     expenses
+// }));
+        
